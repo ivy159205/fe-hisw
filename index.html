@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Hệ Thống Y Tế</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-heartbeat"></i> Admin Panel</h3>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#" class="nav-link active" data-target="dashboard"><i class="fas fa-tachometer-alt"></i> Bảng điều khiển</a></li>
+                <li><a href="#" class="nav-link" data-target="users"><i class="fas fa-users"></i> Người dùng</a></li>
+                <li><a href="#" class="nav-link" data-target="records"><i class="fas fa-file-medical"></i> Hồ sơ sức khỏe</a></li>
+                <li><a href="#" class="nav-link" data-target="targets"><i class="fas fa-bullseye"></i> Mục tiêu</a></li>
+                <li><a href="#" class="nav-link" data-target="settings"><i class="fas fa-cog"></i> Cài đặt</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content">
+            <header>
+                <h2>Chào mừng quay trở lại, Admin!</h2>
+                <div class="user-profile">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="current-user-name">Admin</span>
+                    <button id="logout-btn" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</button>
+                </div>
+            </header>
+            
+            <section id="dashboard" class="content-section active">
+                <h3>Tổng quan</h3>
+                <div class="stats-cards">
+                    <div class="card"><i class="fas fa-users"></i><div class="card-info"><h4 id="total-users">0</h4><p>Tổng số người dùng</p></div></div>
+                    <div class="card"><i class="fas fa-notes-medical"></i><div class="card-info"><h4 id="total-records">0</h4><p>Tổng số hồ sơ</p></div></div>
+                    <div class="card"><i class="fas fa-bullseye"></i><div class="card-info"><h4 id="active-targets">0</h4><p>Mục tiêu đang hoạt động</p></div></div>
+                </div>
+            </section>
+
+            <section id="users" class="content-section">
+                <div class="section-header">
+                    <h3>Quản lý người dùng</h3>
+                    <button class="btn-add" data-modal="user-modal"><i class="fas fa-plus"></i> Thêm người dùng</button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th><th>Tên đăng nhập</th><th>Mật khẩu</th><th>Email</th><th>SĐT</th><th>Giới tính</th><th>Ngày sinh</th><th>Vai trò</th><th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="records" class="content-section">
+                 <div class="section-header">
+                    <h3>Quản lý Hồ sơ sức khỏe</h3>
+                 </div>
+                 <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID Hồ sơ</th><th>Người dùng</th><th>Ngày ghi</th><th>Loại chỉ số</th><th>Giá trị</th><th>Đơn vị</th><th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="records-table-body"></tbody>
+                    </table>
+                </div>
+            </section>
+
+             <section id="targets" class="content-section">
+                <div class="section-header">
+                    <h3>Quản lý Mục tiêu</h3>
+                    <button class="btn-add" data-modal="target-modal"><i class="fas fa-plus"></i> Thêm mục tiêu</button>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID Mục tiêu</th><th>Người dùng</th><th>Tiêu đề</th><th>Trạng thái</th><th>Bắt đầu</th><th>Kết thúc</th><th>Hành động</th>
+                            </tr>
+                        </thead>
+                        <tbody id="targets-table-body"></tbody>
+                    </table>
+                </div>
+            </section>
+            
+            <section id="settings" class="content-section"><h3>Cài đặt</h3><p>Khu vực này dành cho các cài đặt hệ thống.</p></section>
+        </main>
+    </div>
+
+    <div id="user-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3 id="user-modal-title">Thêm người dùng mới</h3>
+            <form id="user-form">
+                <input type="hidden" id="user-id">
+                <div class="form-group"><label for="username">Tên đăng nhập</label><input type="text" id="username" required></div>
+                <div class="form-group"><label for="password">Mật khẩu</label><input type="text" id="password" required></div>
+                <div class="form-group"><label for="email">Email</label><input type="email" id="email" required></div>
+                <div class="form-group"><label for="phone">Số điện thoại</label><input type="tel" id="phone"></div>
+                <div class="form-group"><label for="gender">Giới tính</label><select id="gender"><option value="Nam">Nam</option><option value="Nữ">Nữ</option><option value="Khác">Khác</option></select></div>
+                <div class="form-group"><label for="dob">Ngày sinh</label><input type="date" id="dob"></div>
+                <div class="form-group"><label for="role">Vai trò</label><select id="role"><option value="user">User</option><option value="admin">Admin</option></select></div>
+                <button type="submit" class="btn-submit">Lưu</button>
+            </form>
+        </div>
+    </div>
+    
+    <div id="target-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3 id="target-modal-title">Thêm mục tiêu mới</h3>
+            <form id="target-form">
+                <input type="hidden" id="target-id">
+                <div class="form-group"><label for="target-user-id">Người dùng</label><select id="target-user-id" required></select></div>
+                <div class="form-group"><label for="target-title">Tiêu đề</label><input type="text" id="target-title" required></div>
+                <div class="form-group"><label for="target-status">Trạng thái</label><select id="target-status"><option value="In Progress">In Progress</option><option value="Completed">Completed</option><option value="Cancelled">Cancelled</option></select></div>
+                <div class="form-group"><label for="target-start-date">Ngày bắt đầu</label><input type="date" id="target-start-date" required></div>
+                <div class="form-group"><label for="target-end-date">Ngày kết thúc</label><input type="date" id="target-end-date" required></div>
+                <button type="submit" class="btn-submit">Lưu</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/script.js"></script>
+</body>
+</html>
