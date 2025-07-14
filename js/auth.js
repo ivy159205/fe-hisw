@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('Đăng nhập thành công!');
                 localStorage.setItem('isLoggedIn', 'true'); // Lưu trạng thái đăng nhập
                 localStorage.setItem('loggedInUser', 'Admin'); // Lưu tên người dùng
-                window.location.href = 'index.html'; // Chuyển hướng đến trang admin
+                window.location.href = 'admin.html'; // Chuyển hướng đến trang admin
             } else if (username === 'user' && password === 'user123') {
                 alert('Đăng nhập thành công! (Tài khoản người dùng)');
                 localStorage.setItem('isLoggedIn', 'true'); // Lưu trạng thái đăng nhập
