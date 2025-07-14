@@ -132,6 +132,20 @@ document.addEventListener("DOMContentLoaded", function () {
       },
     ],
   };
+  const dialog = document.getElementById("dailyLogDialog");
+  const openBtn = document.getElementById("openLogDialogBtn");
+  const closeBtn = document.getElementById("closeLogDialogBtn");
+
+  openBtn.addEventListener("click", () => dialog.showModal());
+  closeBtn.addEventListener("click", () => dialog.close());
+
+  // Submit button logic (add to table or backend call)
+  document
+    .getElementById("submitLogBtn")
+    .addEventListener("click", function () {
+      // TODO: Validate + save data
+      dialog.close();
+    });
 
   function renderAllTables() {
     const dummyHealthData = {
@@ -523,6 +537,7 @@ document.addEventListener("DOMContentLoaded", function () {
       tableBody.appendChild(row);
     });
   };
+  
 
   // --- KHỞI TẠO ---
   renderAllTables();

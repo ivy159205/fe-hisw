@@ -25,7 +25,7 @@
             >
           </li>
           <li>
-            <a href="#" class="nav-link" data-target="records"
+            <a href="#" class="nav-link" data-target="progress-records"
               ><i class="fas fa-users"></i> Progress Record</a
             >
           </li>
@@ -44,11 +44,7 @@
               ><i class="fas fa-cog"></i> Health Records</a
             >
           </li>
-          <li>
-            <a href="#" class="nav-link" data-target="chatbot"
-              ><i class="fas fa-cog"></i> AI Advice</a
-            >
-          </li>
+          
         </ul>
       </nav>
 
@@ -100,53 +96,68 @@
 
         <!-- daily-log -->
         <section id="daily-log" class="content-section">
-          <h2>Enter your daily log</h2>
-          <form id="dailyLogForm">
-            <label>Date:</label>
-            <input type="date" id="logDate" />
+          <!-- Button to open dialog -->
+<button id="openLogDialogBtn">+ Add Daily Log</button>
 
-            <label>Sleep:</label>
-            <input type="time" id="sleepStart" /> to
-            <input type="time" id="sleepEnd" />
+<!-- Daily Log Dialog -->
+<dialog id="dailyLogDialog">
+  <form id="dailyLogForm" method="dialog">
+    <h3>Enter your daily log</h3>
 
-            <label>Weight (Kg):</label>
-            <input type="number" id="weight" step="0.1" />
+    <label>Date:</label>
+    <input type="date" id="logDate" required />
 
-            <label>Exercise time (mins):</label>
-            <input type="number" id="exerciseTime" />
+    <label>Sleep:</label>
+    <input type="time" id="sleepStart" required /> to
+    <input type="time" id="sleepEnd" required />
 
-            <label>Health metric type:</label>
-            <input type="text" id="metricType" />
+    <label>Weight (Kg):</label>
+    <input type="number" id="weight" step="0.1" required />
 
-            <label>Metric value:</label>
-            <input type="text" id="metricValue" />
+    <label>Exercise time (mins):</label>
+    <input type="number" id="exerciseTime" required />
 
-            <label>Notes:</label>
-            <textarea id="logNotes"></textarea>
+    <label>Health metric type:</label>
+    <input type="text" id="metricType" required />
 
-            <button type="button" id="submitLogBtn">Submit Log</button>
-            <div class="table-container">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Date</th>
-                    <th>Sleep Start</th>
-                    <th>Sleep End</th>
-                    <th>Weight</th>
-                    <th>Exercise Time</th>
-                    <th>Metric Type</th>
-                    <th>Metric Value</th>
-                    <th>Notes</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody id="dailyLogTableBody">
-                  <!-- Rows will be inserted here -->
-                </tbody>
-              </table>
-            </div>
-          </form>
+    <label>Metric value:</label>
+    <input type="text" id="metricValue" required />
+
+    <label>Notes:</label>
+    <textarea id="logNotes"></textarea>
+
+    <div style="margin-top: 1rem;">
+      <button type="button" id="submitLogBtn">Submit</button>
+      <button type="button" id="closeLogDialogBtn">Cancel</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- Daily Log Table -->
+<div class="table-container">
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Sleep Start</th>
+        <th>Sleep End</th>
+        <th>Weight</th>
+        <th>Exercise Time</th>
+        <th>Metric Type</th>
+        <th>Metric Value</th>
+        <th>Notes</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody id="dailyLogTableBody">
+      <!-- Rows inserted here -->
+    </tbody>
+  </table>
+</div>
+
         </section>
+        <!-- progress-records -->
+         <section id="progress-records"></section>
 
         <!-- health-records -->
         <section id="health-records" class="content-section">
@@ -184,11 +195,9 @@
           <input type="text" id="targetTitle" placeholder="Enter title" />
 
           <label>Start time</label>
-          <div class="time-inputs">
-            <input type="number" placeholder="h" min="0" max="23" />
-            <input type="number" placeholder="m" min="0" max="59" />
-            <input type="date" />
-          </div>
+         
+          <input type="date" />
+          
 
           <label>Finish time</label>
           <input type="date" />
@@ -203,20 +212,7 @@
           <button class="submit-btn">Submit</button>
         </section>
 
-        <!-- ai advice -->
-        <section id="chatbot" class="content-section">
-          <h2>Healthcare Chatbot</h2>
-          <div class="chat-window">
-            <div class="message left">Hello, how can I help you?</div>
-            <div class="message right">I need health advice.</div>
-          </div>
 
-          <div class="chat-input">
-            <input type="text" placeholder="Type here" />
-            <button class="send-btn">➤</button>
-          </div>
-        </section>
-      </main>
       <!-- Đóng main -->
     </div>
     <!-- Đóng container -->
