@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Health Statistics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="css/stats-style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="p-4">
+  <div class="container">
+    <a href="main-page.html" class="btn btn-secondary mb-3">Back to Main Page</a>
+    <h2 class="mb-4">Health Statistics</h2>
+
+    <div class="mb-4">
+      <label for="timeFilter" class="form-label">Select time range:</label>
+      <select id="timeFilter" class="form-select w-auto d-inline-block">
+        <option value="day">By Day</option>
+        <option value="week">By Week</option>
+        <option value="month">By Month</option>
+      </select>
+    </div>
+
+    <!-- Container to hold all charts -->
+    <div id="chartsContainer" class="d-flex flex-column gap-5"></div>
+  </div>
+
+  <script src="js/stats-script.js"></script>
+</body>
+</html>
