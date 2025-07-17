@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 alert('Đăng nhập thành công! (Tài khoản người dùng)');
                 localStorage.setItem('isLoggedIn', 'true'); // Lưu trạng thái đăng nhập
                 localStorage.setItem('loggedInUser', 'User'); // Lưu tên người dùng
-                window.location.href = 'index.html'; // Chuyển hướng đến trang user (hoặc index)
+                window.location.href = 'main-page.html'; // Chuyển hướng đến trang user (hoặc index)
             } else {
                 alert('Tên đăng nhập hoặc mật khẩu không đúng!');
             }
