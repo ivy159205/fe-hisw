@@ -1,7 +1,0 @@
-- đây là bản sửa đổi giao diện của trang người dùng, mục đích chính là xem qua thiết kế sơ bộ (16/7)
-- các file có chứa main ở đầu là của user
-- chưa xong:
-+ các trang daily logs, target
-+ thiếu hiển thị dữ liệu mock
-+ chưa xóa bản cũ (index.html)
-+ chưa đúng yêu cầu đăng nhập đăng ký
