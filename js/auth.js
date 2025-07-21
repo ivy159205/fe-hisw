@@ -1,40 +1,61 @@
+// js/login-script.js
+
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
 
-    // Handle Login Form Submission
-    if (loginForm) {
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent default form submission
+    const BASE_URL = 'http://localhost:8286/api/auth'; // Đảm bảo đây là URL backend của bạn
 
-            const username = document.getElementById('login-username').value;
+    // --- Xử lý Đăng nhập ---
+    if (loginForm) {
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('login-email').value;
             const password = document.getElementById('login-password').value;
 
-            // In a real application, you would send this data to a server
-            // and handle the response (e.g., check credentials).
-            console.log('Đăng nhập với:', { username, password });
+            try {
+                const response = await fetch(`${BASE_URL}/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ email, password }) // Gửi email và password
+                });
 
-            // Dummy authentication logic
-            if (username === 'nguyenvana' && password === '123321') {
-                alert('Đăng nhập thành công!');
-                localStorage.setItem('isLoggedIn', 'true'); // Lưu trạng thái đăng nhập
-                localStorage.setItem('loggedInUser', 'Admin'); // Lưu tên người dùng
-                window.location.href = 'admin.html'; // Chuyển hướng đến trang admin
-            } else if (username === 'user' && password === 'user123') {
-                alert('Đăng nhập thành công! (Tài khoản người dùng)');
-                localStorage.setItem('isLoggedIn', 'true'); // Lưu trạng thái đăng nhập
-                localStorage.setItem('loggedInUser', 'User'); // Lưu tên người dùng
-                window.location.href = 'main-page.html'; // Chuyển hướng đến trang user (hoặc index)
-            } else {
-                alert('Tên đăng nhập hoặc mật khẩu không đúng!');
+                if (!response.ok) {
+                    const errorData = await response.json(); // Backend có thể trả về thông báo lỗi JSON
+                    throw new Error(errorData.message || 'Đăng nhập không thành công.');
+                }
+
+                const loginResponse = await response.json(); // Nhận LoginResponse từ backend
+                console.log('Login successful:', loginResponse);
+
+                // Lưu trạng thái đăng nhập và vai trò/tên người dùng
+                localStorage.setItem('isLoggedIn', 'true');
+                localStorage.setItem('currentUser', loginResponse.user.username); // Lưu username từ phản hồi
+                localStorage.setItem('userRole', loginResponse.user.role); // Lưu vai trò của người dùng
+
+                alert(loginResponse.message || 'Đăng nhập thành công!');
+
+                // Chuyển hướng dựa trên vai trò
+                if (loginResponse.user.role === 'admin') {
+                    window.location.href = 'admin.html';
+                } else {
+                    window.location.href = 'main-page.html'; // Hoặc trang chủ của người dùng thường
+                }
+
+            } catch (error) {
+                console.error('Lỗi đăng nhập:', error);
+                alert(`Lỗi đăng nhập: ${error.message}. Vui lòng kiểm tra lại email và mật khẩu.`);
             }
         });
     }
 
-    // Handle Register Form Submission
+    // --- Xử lý Đăng ký ---
     if (registerForm) {
-        registerForm.addEventListener('submit', function(e) {
-            e.preventDefault(); // Prevent default form submission
+        registerForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
 
             const username = document.getElementById('reg-username').value;
             const email = document.getElementById('reg-email').value;
@@ -46,10 +67,36 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            console.log('Đăng ký với:', { username, email, password });
+            try {
+                const response = await fetch(`${BASE_URL}/register`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    // Gửi dữ liệu đăng ký
+                    body: JSON.stringify({
+                        username: username,
+                        email: email,
+                        password: password,
+                        role: "user" // Mặc định là 'user' khi đăng ký từ frontend
+                    })
+                });
 
-            alert('Đăng ký thành công! Bạn có thể đăng nhập ngay bây giờ.');
-            window.location.href = 'login.html'; // Chuyển hướng về trang đăng nhập
+                if (!response.ok) {
+                    const errorData = await response.json(); // Backend có thể trả về thông báo lỗi JSON
+                    throw new Error(errorData.message || 'Đăng ký không thành công.');
+                }
+
+                const newUser = await response.json(); // Nhận User object đã đăng ký
+                console.log('Registered user:', newUser);
+
+                alert('Đăng ký thành công! Bạn có thể đăng nhập ngay bây giờ.');
+                window.location.href = 'login.html'; // Chuyển hướng về trang đăng nhập
+
+            } catch (error) {
+                console.error('Lỗi đăng ký:', error);
+                alert(`Lỗi đăng ký: ${error.message}. Vui lòng thử lại.`);
+            }
         });
     }
 });

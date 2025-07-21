@@ -356,7 +356,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             targets.forEach(target => {
-                const userName = userMap.get(target.userId) || 'Không xác định';
+                const userName = userMap.get(target.user.userId) || 'Không xác định';
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${formatTargetId(target.targetId)}</td>
@@ -430,8 +430,11 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('target-form').addEventListener('submit', async function (e) {
         e.preventDefault();
         const targetId = document.getElementById('target-id').value;
+        // Code đã sửa
         const targetData = {
-            userId: parseInt(document.getElementById('target-user-id').value, 10), // Gửi userId dạng Long
+            user: { // <-- Tạo đối tượng user lồng vào
+                userId: parseInt(document.getElementById('target-user-id').value, 10)
+            },
             title: document.getElementById('target-title').value,
             status: document.getElementById('target-status').value,
             startDate: document.getElementById('target-start-date').value,
