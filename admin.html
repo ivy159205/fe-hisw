@@ -1,14 +1,164 @@
 <!DOCTYPE html>
 <html lang="vi">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin - Hệ Thống Y Tế</title>
     <link rel="stylesheet" href="css/admin-style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Ngăn body scroll, để iframe xử lý */
+        }
+        
+        .container {
+            display: flex;
+            height: 100vh;
+        }
+        
+        .main-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+            margin-left: 250px;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        header {
+            flex-shrink: 0; /* Không cho header co lại */
+            height: 80px;
+            background: white;
+            padding: 20px 30px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .iframe-container {
+            flex: 1;
+            overflow: hidden;
+            background: #f8f9fa;
+        }
 
+        #content-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+            display: block;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+            z-index: 1000;
+        }
+        
+        .sidebar-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-header h3 {
+            font-size: 20px;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .nav-links {
+            list-style: none;
+            padding: 20px 0;
+            margin: 0;
+        }
+        
+        .nav-links li {
+            margin: 5px 0;
+        }
+        
+        .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-link:hover, .nav-link.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transform: translateX(5px);
+        }
+        
+        .nav-link i {
+            margin-right: 10px;
+            width: 20px;
+            font-size: 16px;
+        }
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .user-profile i {
+            font-size: 24px;
+            color: #7f8c8d;
+        }
+        
+        .btn-logout {
+            padding: 8px 16px;
+            background: #e74c3c;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.3s ease;
+        }
+        
+        .btn-logout:hover {
+            background: #c0392b;
+        }
+        
+        header h2 {
+            color: #2c3e50;
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        /* Mobile responsive */
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease;
+            }
+            
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .container {
+                position: relative;
+            }
+        }
+    </style>
+</head>
 <body>
     <div class="container">
         <nav class="sidebar">
@@ -16,15 +166,13 @@
                 <h3><i class="fas fa-heartbeat"></i> Admin Panel</h3>
             </div>
             <ul class="nav-links">
-                <li><a href="#" class="nav-link active" data-target="dashboard"><i class="fas fa-tachometer-alt"></i>
-                        Bảng điều khiển</a></li>
-                <li><a href="#" class="nav-link" data-target="users"><i class="fas fa-users"></i> Người dùng</a></li>
-                <li><a href="#" class="nav-link" data-target="records"><i class="fas fa-file-medical"></i> Hồ sơ sức
-                        khỏe</a></li>
-                <li><a href="#" class="nav-link" data-target="targets"><i class="fas fa-bullseye"></i> Mục tiêu</a></li>
-                <li><a href="#" class="nav-link" data-target="metric-types"><i class="fas fa-ruler-combined"></i> Loại
-                        số liệu</a></li>
-                <li><a href="#" class="nav-link" data-target="settings"><i class="fas fa-cog"></i> Cài đặt</a></li>
+                <li><a href="#" class="nav-link active" data-page="dashboard.html"><i class="fas fa-tachometer-alt"></i> Bảng điều khiển</a></li>
+                <li><a href="#" class="nav-link" data-page="users.html"><i class="fas fa-users"></i> Người dùng</a></li>
+                <li><a href="#" class="nav-link" data-page="daily-logs.html"><i class="fas fa-book-medical"></i> Nhật ký</a></li>
+                <li><a href="#" class="nav-link" data-page="health-records.html"><i class="fas fa-file-medical"></i> Hồ sơ sức khỏe</a></li>
+                <li><a href="#" class="nav-link" data-page="targets.html"><i class="fas fa-bullseye"></i> Mục tiêu</a></li>
+                <li><a href="#" class="nav-link" data-page="metric-types.html"><i class="fas fa-ruler-combined"></i> Loại số liệu</a></li>
+                <li><a href="#" class="nav-link" data-page="settings.html"><i class="fas fa-cog"></i> Cài đặt</a></li>
             </ul>
         </nav>
 
@@ -37,206 +185,99 @@
                 </div>
             </header>
 
-            <section id="dashboard" class="content-section active">
-                <h3>Tổng quan</h3>
-                <div class="stats-cards">
-                    <div class="card"><i class="fas fa-users"></i>
-                        <div class="card-info">
-                            <h4 id="total-users">0</h4>
-                            <p>Tổng số người dùng</p>
-                        </div>
-                    </div>
-                    <div class="card"><i class="fas fa-notes-medical"></i>
-                        <div class="card-info">
-                            <h4 id="total-records">0</h4>
-                            <p>Tổng số hồ sơ</p>
-                        </div>
-                    </div>
-                    <div class="card"><i class="fas fa-bullseye"></i>
-                        <div class="card-info">
-                            <h4 id="active-targets">0</h4>
-                            <p>Mục tiêu đang hoạt động</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="users" class="content-section">
-                <div class="section-header">
-                    <h3>Quản lý người dùng</h3>
-                    <button class="btn-add" data-modal="user-modal"><i class="fas fa-plus"></i> Thêm người dùng</button>
-                </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Tên đăng nhập</th>
-                                <th>Mật khẩu</th>
-                                <th>Email</th>
-                                <th>SĐT</th>
-                                <th>Giới tính</th>
-                                <th>Ngày sinh</th>
-                                <th>Vai trò</th>
-                                <th>Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody id="users-table-body"></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <section id="records" class="content-section">
-                <div class="section-header">
-                    <h3>Quản lý Hồ sơ sức khỏe</h3>
-                    </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID Hồ sơ</th>
-                                <th>Người dùng</th>
-                                <th>Ngày ghi</th>
-                                <th>Loại chỉ số</th>
-                                <th>Giá trị</th>
-                                <th>Đơn vị</th>
-                                <th>Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody id="records-table-body"></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <section id="targets" class="content-section">
-                <div class="section-header">
-                    <h3>Quản lý Mục tiêu</h3>
-                    <button class="btn-add" data-modal="target-modal"><i class="fas fa-plus"></i> Thêm mục tiêu</button>
-                </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID Mục tiêu</th>
-                                <th>Người dùng</th>
-                                <th>Tiêu đề</th>
-                                <th>Trạng thái</th>
-                                <th>Bắt đầu</th>
-                                <th>Kết thúc</th>
-                                <th>Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody id="targets-table-body"></tbody>
-                    </table>
-                </div>
-            </section>
-
-            <section id="metric-types" class="content-section">
-                <div class="section-header">
-                    <h3>Quản lý loại số liệu</h3>
-                    <button class="btn-add" data-modal="metric-type-modal"><i class="fas fa-plus"></i>
-                        Thêm loại số liệu</button>
-                </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Tên loại số liệu</th>
-                                <th>Đơn vị</th>
-                                <th>Hành động</th>
-                            </tr>
-                        </thead>
-                        <tbody id="metric-types-table-body">
-                        </tbody>
-                    </table>
-                </div>
-            </section>
-
-            <section id="settings" class="content-section">
-                <h3>Cài đặt</h3>
-                <p>Khu vực này dành cho các cài đặt hệ thống.</p>
-            </section>
+            <div class="iframe-container">
+                <iframe id="content-frame" src="pages/dashboard.html"></iframe>
+            </div>
         </main>
     </div>
 
-    <div id="user-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn close-button">&times;</span>
-            <h3 id="user-modal-title">Thêm người dùng mới</h3>
-            <form id="user-form">
-                <input type="hidden" id="user-id">
-                <div class="form-group"><label for="username">Tên đăng nhập</label><input type="text" id="username"
-                        required></div>
-                <div class="form-group"><label for="password">Mật khẩu</label><input type="password" id="password"
-                        required>
-                </div>
-                <div class="form-group"><label for="email">Email</label><input type="email" id="email" required></div>
-                <div class="form-group"><label for="phone">Số điện thoại</label><input type="tel" id="phone"></div>
-                <div class="form-group"><label for="gender">Giới tính</label><select id="gender">
-                        <option value="Nam">Nam</option>
-                        <option value="Nữ">Nữ</option>
-                        <option value="Khác">Khác</option>
-                    </select></div>
-                <div class="form-group"><label for="dob">Ngày sinh</label><input type="date" id="dob"></div>
-                <div class="form-group"><label for="role">Vai trò</label><select id="role">
-                        <option value="user">User</option>
-                        <option value="admin">Admin</option>
-                    </select></div>
-                <button type="submit" class="btn-submit">Lưu</button>
-            </form>
-        </div>
-    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Kiểm tra đăng nhập
+            const isLoggedIn = localStorage.getItem('isLoggedIn');
+            if (isLoggedIn !== 'true') {
+                window.location.href = 'login.html';
+            }
 
-    <div id="target-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn close-button">&times;</span>
-            <h3 id="target-modal-title">Thêm mục tiêu mới</h3>
-            <form id="target-form">
-                <input type="hidden" id="target-id">
-                <div class="form-group"><label for="target-user-id">Người dùng</label><select id="target-user-id"
-                        required></select></div>
-                <div class="form-group"><label for="target-title">Tiêu đề</label><input type="text" id="target-title"
-                        required></div>
-                <div class="form-group"><label for="target-status">Trạng thái</label><select id="target-status">
-                        <option value="In Progress">In Progress</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Cancelled">Cancelled</option>
-                    </select></div>
-                <div class="form-group"><label for="target-start-date">Ngày bắt đầu</label><input type="date"
-                        id="target-start-date" required></div>
-                <div class="form-group"><label for="target-end-date">Ngày kết thúc</label><input type="date"
-                        id="target-end-date" required></div>
-                <button type="submit" class="btn-submit">Lưu</button>
-            </form>
-        </div>
-    </div>
+            // Hiển thị tên người dùng
+            const currentUserName = localStorage.getItem('currentUser') || 'Admin';
+            document.getElementById('current-user-name').textContent = currentUserName;
 
-    <div id="metric-type-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn close-button">&times;</span>
-            <h3 id="metric-type-modal-title">Thêm Loại Số Liệu Mới</h3>
-            <form id="metric-type-form">
-                <input type="hidden" id="metric-type-actual-id">
+            // Xử lý chuyển tab
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentFrame = document.getElementById('content-frame');
 
-                <div class="form-group" id="metric-id-container" style="display: none;">
-                    <label for="metric-id">ID Loại Số Liệu:</label>
-                    <input type="text" id="metric-id" name="metricId" readonly>
-                </div>
-                <div class="form-group">
-                    <label for="metric-name">Tên:</label>
-                    <input type="text" id="metric-name" name="name" required>
-                </div>
-                <div class="form-group">
-                    <label for="metric-unit">Đơn vị:</label>
-                    <input type="text" id="metric-unit" name="unit" required>
-                </div>
-                <button type="submit" class="btn-submit">Lưu Loại Số Liệu</button>
-            </form>
-        </div>
-    </div>
+            navLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    
+                    // Loại bỏ active từ tất cả nav-links
+                    navLinks.forEach(item => item.classList.remove('active'));
+                    
+                    // Thêm active vào link được click
+                    link.classList.add('active');
+                    
+                    // Tải trang tương ứng vào iframe
+                    const pageName = link.dataset.page;
+                    contentFrame.src = `pages/${pageName}`;
+                });
+            });
 
-    <script src="js/admin-script.js"></script>
+            // Xử lý đăng xuất
+            document.getElementById('logout-btn').addEventListener('click', () => {
+                if (confirm('Bạn có muốn đăng xuất không?')) {
+                    localStorage.removeItem('isLoggedIn');
+                    localStorage.removeItem('currentUser');
+                    window.location.href = 'login.html';
+                }
+            });
+
+            // Xử lý responsive menu (mobile)
+            const sidebar = document.querySelector('.sidebar');
+            let menuToggle;
+            
+            // Tạo nút menu cho mobile nếu cần
+            if (window.innerWidth <= 768) {
+                menuToggle = document.createElement('button');
+                menuToggle.innerHTML = '<i class="fas fa-bars"></i>';
+                menuToggle.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    left: 20px;
+                    z-index: 1001;
+                    background: #667eea;
+                    color: white;
+                    border: none;
+                    padding: 10px;
+                    border-radius: 4px;
+                    cursor: pointer;
+                `;
+                document.body.appendChild(menuToggle);
+
+                menuToggle.addEventListener('click', () => {
+                    sidebar.classList.toggle('active');
+                });
+
+                // Đóng menu khi click vào content
+                contentFrame.addEventListener('load', () => {
+                    sidebar.classList.remove('active');
+                });
+            }
+
+            // Xử lý resize window
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    sidebar.classList.remove('active');
+                    if (menuToggle) {
+                        menuToggle.style.display = 'none';
+                    }
+                } else {
+                    if (menuToggle) {
+                        menuToggle.style.display = 'block';
+                    }
+                }
+            });
+        });
+    </script>
 </body>
-
 </html>
