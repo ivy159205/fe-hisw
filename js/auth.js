@@ -1,4 +1,20 @@
 document.addEventListener('DOMContentLoaded', function() {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    const username = localStorage.getItem("loggedInUser");
+
+    if (isLoggedIn === "true" && username) {
+      const nameSpan = document.getElementById("current-user-name");
+      if (nameSpan) {
+        nameSpan.textContent = username;
+      }
+
+      const helloHeading = document.querySelector("header h2");
+      if (helloHeading) {
+        helloHeading.textContent = `Hello, ${username}!`;
+      }
+    } else {
+      window.location.href = "login.html";
+    }
     const loginForm = document.getElementById('login-form');
     const registerForm = document.getElementById('register-form');
 
