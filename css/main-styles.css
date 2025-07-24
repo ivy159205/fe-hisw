@@ -954,3 +954,32 @@ body {
 .goals-container {
   animation: fadeIn 0.5s ease-out;
 }
+
+.app-footer {
+  background-color: #f8f9fa;
+  padding: 20px 0;
+  text-align: center;
+  border-top: 1px solid #ddd;
+  margin-top: 40px;
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-copy {
+  margin: 0;
+  color: #666;
+}
+
+.footer-links {
+  margin: 5px 0 0;
+}
+
+.footer-links a {
+  color: #007bff;
+  text-decoration: none;
+  margin: 0 10px;
+}
+
