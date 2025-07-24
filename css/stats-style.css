@@ -1,0 +1,18 @@
+/* Cố định chiều cao vừa phải và giới hạn chiều rộng */
+canvas {
+  width: 100% !important;
+  max-width: 800px;
+  height: 280px !important;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Giao diện khung biểu đồ */
+#chartsContainer > div {
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 32px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.05);
+  background-color: #fff;
+}
